@@ -201,7 +201,7 @@ public class HRModel implements IHumanResourcesModel {
 
   @Override
   public void linkEmployeeAndManager(int employeeID, int managerID) throws IllegalStateException {
-
+    verifyAdministrator();
     //VALIDATE INPUTS
     if (users.get(employeeID) == null || users.get(managerID) == null) {
       throw new IllegalStateException("Both IDs must correspond to valid users.");
@@ -224,6 +224,40 @@ public class HRModel implements IHumanResourcesModel {
 
     employee.setManager(manager);
     manager.addReportingEmployee(employee);
+  }
+
+  @Override
+  public void promoteToManager(int id) throws IllegalStateException {
+    verifyAdministrator();
+    //VALIDATE INPUTS
+    if (users.get(id) == null) {
+      throw new IllegalStateException("No user with ID " + id + " found.");
+    }
+    if (!users.get(id).getUserType().contains("AEmployee") || users.get(id).getUserType()
+        .contains("Manager")) {
+      throw new IllegalStateException("User must be an AEmployee but not a manager.");
+    }
+
+    AEmployee emp = (AEmployee)removeUser(id);
+    Manager man = new Manager(emp);
+    users.put(man.getId(), man);
+  }
+
+  @Override
+  public void demoteToStandard(int id) throws IllegalStateException {
+    verifyAdministrator();
+    //VALIDATE INPUTS
+    if (users.get(id) == null) {
+      throw new IllegalStateException("No user with ID " + id + " found.");
+    }
+    if (!users.get(id).getUserType().contains("AEmployee") || users.get(id).getUserType()
+        .contains("StandardEmployee")) {
+      throw new IllegalStateException("User must be an AEmployee but not a StandardEmployee.");
+    }
+
+    AEmployee emp = (AEmployee)removeUser(id);
+    StandardEmployee newEmployee = new StandardEmployee(emp);
+    users.put(newEmployee.getId(), newEmployee);
   }
 
   // Checks if the current user has permission to read information about the user with the given ID

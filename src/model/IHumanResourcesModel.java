@@ -86,6 +86,29 @@ public interface IHumanResourcesModel {
   void linkEmployeeAndManager(int employeeID, int managerID) throws IllegalStateException;
 
   /**
+   * Promotes the specified {@link model.users.AEmployee} to be a {@link model.users.Manager}.
+   *
+   * @param id The ID of the employee to be promoted.
+   * @throws IllegalStateException If there is no user with the given ID, or if the user is already
+   *                               a manager, or if the current user doesn't have permission to
+   *                               execute this command.
+   * @author Michael Ruberto
+   */
+  void promoteToManager(int id) throws IllegalStateException;
+
+  /**
+   * Demotes the specified {@link model.users.AEmployee} to be a {@link
+   * model.users.StandardEmployee}.
+   *
+   * @param id The ID of the employee to be demoted.
+   * @throws IllegalStateException If there is no user with the given ID, or if the user is already
+   *                               a Standard Employee, or if the current user doesn't have
+   *                               permission to execute this command.
+   * @author Michael Ruberto
+   */
+  void demoteToStandard(int id) throws IllegalStateException;
+
+  /**
    * Gets the salary of the specified {@link model.users.AEmployee}.
    *
    * @param id The unique ID of the employee.

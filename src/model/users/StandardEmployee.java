@@ -27,6 +27,18 @@ public class StandardEmployee extends AEmployee {
     super(name, password, salary, vacationBalance, annualBonus, inHumanResources);
   }
 
+  /**
+   * Constructs a new instance of StandardEmployee from an existing instance of {@link AEmployee} by
+   * copying all of its information.
+   *
+   * @param emp The existing AEmployee to be copied.
+   * @throws IllegalArgumentException The given AEmployee is null
+   * @author Michael Ruberto
+   */
+  public StandardEmployee(AEmployee emp) throws IllegalArgumentException {
+    super(emp);
+  }
+
   @Override
   public String getUserType() {
     return super.getUserType() + ", StandardEmployee";

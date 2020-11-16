@@ -55,6 +55,19 @@ public class StandardEmployeeTest {
     assertNotNull(std);
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void testCopyConstructorNull() {
+    StandardEmployee emp = new StandardEmployee(null);
+  }
+
+  @Test
+  public void testCopyConstructor() {
+    AEmployee man = new Manager("Man", "Test", 0, 0, 0, true);
+    StandardEmployee emp = new StandardEmployee(man);
+    assertEquals(emp.getName(), man.getName());
+    assertEquals("AEmployee, StandardEmployee", emp.getUserType());
+  }
+
   @Test
   public void testGetID() {
     StandardEmployee std = new StandardEmployee("Name", "Password", 0, 0, 0, true);

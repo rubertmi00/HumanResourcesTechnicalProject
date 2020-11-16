@@ -299,6 +299,86 @@ public class HRModelTest {
     assertTrue(newMan.getReportingEmployees().size() == 1);
   }
 
+  @Test(expected = IllegalStateException.class)
+  public void testPromoteToManagerNotAdmin() {
+    HRModel model = new HRModel("Password");
+    model.logIn(0, "Password");
+    model.addEmployee("Standard Employee", "Emp", "Test", 0, 0, 0, false);
+    model.logOut();
+    model.promoteToManager(1);
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testPromoteToManagerAdminUser() {
+    HRModel model = new HRModel("Password");
+    model.logIn(0, "Password");
+    model.addAdministrator("Admin", "Test");
+    model.logOut();
+    model.promoteToManager(-1);
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testPromoteToManagerAlreadyManager() {
+    HRModel model = new HRModel("Password");
+    model.logIn(0, "Password");
+    model.addEmployee("Manager", "Man", "Test", 0, 0, 0, false);
+    model.promoteToManager(1);
+  }
+
+  @Test
+  public void testPromoteToManager() {
+    HRModel model = new HRModel("Password");
+    model.logIn(0, "Password");
+    model.addEmployee("Standard Employee", "Emp", "Test", 0, 0, 0, false);
+    assertTrue(model.getUsers().size() == 2);
+    assertTrue(model.getUsers().get(1).getName().equals("Emp"));
+    assertTrue(model.getUsers().get(1).getUserType().equals("AEmployee, StandardEmployee"));
+    model.promoteToManager(1);
+    assertTrue(model.getUsers().size() == 2);
+    assertTrue(model.getUsers().get(1).getName().equals("Emp"));
+    assertTrue(model.getUsers().get(1).getUserType().equals("AEmployee, Manager"));
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testDemoteToStandardNotAdmin() {
+    HRModel model = new HRModel("Password");
+    model.logIn(0, "Password");
+    model.addEmployee("Manager", "Man", "Test", 0, 0, 0, false);
+    model.logOut();
+    model.demoteToStandard(1);
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testDemoteToStandardAdminUser() {
+    HRModel model = new HRModel("Password");
+    model.logIn(0, "Password");
+    model.addAdministrator("Admin", "Test");
+    model.logOut();
+    model.demoteToStandard(-1);
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testDemoteToStandardAlreadyStandard() {
+    HRModel model = new HRModel("Password");
+    model.logIn(0, "Password");
+    model.addEmployee("Standard Employee", "Emp", "Test", 0, 0, 0, false);
+    model.demoteToStandard(1);
+  }
+
+  @Test
+  public void testDemoteToStandard() {
+    HRModel model = new HRModel("Password");
+    model.logIn(0, "Password");
+    model.addEmployee("Manager", "Man", "Test", 0, 0, 0, false);
+    assertTrue(model.getUsers().size() == 2);
+    assertTrue(model.getUsers().get(1).getName().equals("Man"));
+    assertTrue(model.getUsers().get(1).getUserType().equals("AEmployee, Manager"));
+    model.demoteToStandard(1);
+    assertTrue(model.getUsers().size() == 2);
+    assertTrue(model.getUsers().get(1).getName().equals("Man"));
+    assertTrue(model.getUsers().get(1).getUserType().equals("AEmployee, StandardEmployee"));
+  }
+
   @Test
   public void testReadAccessAdmin() {
     HRModel model = new HRModel("Password");

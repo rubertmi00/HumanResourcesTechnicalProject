@@ -33,6 +33,19 @@ public class Manager extends AEmployee {
     this.reportingEmployees = new HashMap<Integer, AEmployee>();
   }
 
+  /**
+   * Constructs a new instance of Manager from an existing instance of {@link AEmployee} by copying
+   * all of its information.
+   *
+   * @param emp The existing AEmployee to be copied.
+   * @throws IllegalArgumentException The given AEmployee is null
+   * @author Michael Ruberto
+   */
+  public Manager(AEmployee emp) throws IllegalArgumentException {
+    super(emp);
+    this.reportingEmployees = new HashMap<Integer, AEmployee>();
+  }
+
   @Override
   public String getUserType() {
     return super.getUserType() + ", Manager";

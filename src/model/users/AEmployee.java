@@ -65,6 +65,29 @@ public abstract class AEmployee implements IUser {
   }
 
   /**
+   * Constructs a new instance of AEmployee from an existing instance by copying all of its
+   * information.
+   *
+   * @param emp The existing AEmployee to be copied.
+   * @throws IllegalArgumentException The given AEmployee is null
+   * @author Michael Ruberto
+   */
+  public AEmployee(AEmployee emp) throws IllegalArgumentException {
+    if (emp == null) {
+      throw new IllegalArgumentException("The given employee cannot be null.");
+    }
+    this.id = emp.id;
+    this.name = emp.name;
+    this.password = emp.password;
+    this.salary = emp.salary;
+    this.salaryHistory = emp.salaryHistory;
+    this.vacationBalance = emp.vacationBalance;
+    this.annualBonus = emp.annualBonus;
+    this.inHumanResources = emp.inHumanResources;
+    this.manager = emp.manager;
+  }
+
+  /**
    * Changes {@code currentId} to the given value so that the next AEmployee created will have that
    * ID.
    *
